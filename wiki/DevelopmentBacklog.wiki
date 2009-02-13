@@ -1,0 +1,5 @@
+#summary Development backlog - planned stories for the future
+
+= Stories =
+  * teamcity feedback reporting (so that teamcity can show progress)
+  * reduce memory consumption from maven plugin
