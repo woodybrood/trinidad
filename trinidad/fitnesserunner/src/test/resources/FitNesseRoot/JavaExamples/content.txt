@@ -1,0 +1,3 @@
+!path lib/*.jar
+!path ../bin
+!contents -R

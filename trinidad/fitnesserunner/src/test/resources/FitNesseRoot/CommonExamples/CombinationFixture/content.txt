@@ -1,0 +1,4 @@
+!|CombinationFixtureTest|
+|  |1 |2|3|
+|6 |6 |3|2|
+|12|12|6|4|

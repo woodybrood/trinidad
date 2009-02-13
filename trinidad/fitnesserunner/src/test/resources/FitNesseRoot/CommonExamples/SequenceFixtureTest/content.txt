@@ -1,0 +1,5 @@
+!|SequenceFixtureTest|
+|fill|10|x|
+|check|char at|4|x|
+|set list|A,B,C,D|
+|check|char at|2|C|

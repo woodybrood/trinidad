@@ -1,0 +1,15 @@
+!|info.fitnesse.fixturegallery.DoFixtureFlowTest|
+
+!3 The following table is executed by an embedded !-SetUpFixture-!
+
+|prepare players|
+|player|post code|balance|
+|John Smith|SW4 66Z|10.00|
+|Michael Jordan|NE1 8AT|12.00|
+
+!3 The following table is executed by an !-ArrayFixture-!
+
+|list players|
+|name|post code|balance|
+|John Smith|SW4 66Z|10.00|
+|Michael Jordan|NE1 8AT|12.00|

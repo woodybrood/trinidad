@@ -1,0 +1,23 @@
+!- <div style="width:300px;margin:5px 5px 5px 5px; padding:5px 5px 5px 5px;background:#ccccee;border:1px solid black;float:right;text-align:center">
+Learn how to use FitNesse effectively: <br/><a href="http://gojko.net/fitnesse/book?fixturegallery">Test Driven .NET Development with FitNesse<br/><img style="border:1px solid black;" align="center" src="/files/images/tddfitn-sm.jpg"/></a></div>
+-!
+!c !2 Welcome to the !-FitNesse-! Fixture Gallery
+
+!c version 2.1, 2008-07-08
+
+!c [[Gojko Adzic][http://gojko.net]]
+!c [[Mike Stockdale][http://www.syterra.com]]
+!c Jens Engel
+!c [[Randy Coulman][http://www.cincomsmalltalk.com/userblogs/randy/blogView]]
+
+Fixture Gallery is a cookbook for !-FIT/FitNesse-! tests. It provides developers with a quick overview of the most important fixture types and concepts for agile acceptance testing using the FIT framework. For each fixture type, this document explains the table format and fixture class structure and provides advice when to use and when not to use it. Each example is accompanied by the source code for Java, .NET, Python and Smalltalk FIT implementations, in a form that can be easily copied and used as a template for similar fixtures.
+
+FixtureGallery table of contents
+FixtureGalleryPt Portugese Translation
+
+Programming lanuage specific examples:
+ * DotNetExamples
+ * JavaExamples
+ * PythonExamples
+ * SmalltalkExamples
+

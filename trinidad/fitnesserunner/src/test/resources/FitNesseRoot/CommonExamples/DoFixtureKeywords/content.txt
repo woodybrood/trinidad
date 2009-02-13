@@ -1,0 +1,5 @@
+!|DoFixtureTest|
+|fill|10|times with|x|
+|check|char at|4|x|
+|set list|A,B,C,D|
+|show|char at|2|

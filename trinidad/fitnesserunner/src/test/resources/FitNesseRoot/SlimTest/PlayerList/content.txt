@@ -1,0 +1,13 @@
+!contents -R2 -g -p -f -h
+
+|script|
+|start|create players|
+|player registers with name|Mike| postcode |12345| and balance|120.01|
+|check me|5|
+|check|get double|3|is|6|
+|player registers with name|Tom| postcode |181818| and balance|20.01|
+
+|query:list players|
+|name|post code|balance|
+|Mike|12345|120.01|
+|Tom|181818|20.01|
