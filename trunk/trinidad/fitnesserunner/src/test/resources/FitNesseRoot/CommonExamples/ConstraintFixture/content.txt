@@ -1,0 +1,4 @@
+!|ConstraintFixtureTest|
+|firstPart|secondPart|
+|1|2|
+|2|3|

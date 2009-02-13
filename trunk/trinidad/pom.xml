@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.neuri.tdd</groupId>
+  <artifactId>trinidad</artifactId>
+  <packaging>pom</packaging>
+  <name>trinidad main project</name>
+  <version>1.0.4</version>
+  <properties>
+	  <fitnesse.version>20090112</fitnesse.version>
+	  <fitlibrary.version>20081102</fitlibrary.version>
+	  <junit.version>4.3.1</junit.version>
+  </properties>
+  <dependencies>
+          <dependency>
+            <groupId>org.fitnesse</groupId>
+            <artifactId>fitnesse</artifactId>
+            <version>${fitnesse.version}</version>
+			<scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.fitnesse</groupId>
+            <artifactId>fitlibrary</artifactId>
+            <version>${fitlibrary.version}</version>
+			<scope>provided</scope>
+        </dependency>
+  </dependencies>
+  <modules>
+  	<module>fitnesserunner</module>
+  	<module>transactionalrunner</module>
+    <module>maven-trinidad-plugin</module>
+  </modules> 
+  <repositories>  	
+  	<repository>
+			<id>neuri-maven</id>
+			<url>http://maven.neuri.com/</url>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+			<releases>
+				<enabled>true</enabled>
+			</releases>		
+	</repository>	
+  	<repository>
+			<id>maven-central</id>
+			<url>http://repo1.maven.org/maven2/</url>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+			<releases>
+				<enabled>true</enabled>
+			</releases>		
+	</repository>	
+  </repositories>
+  <pluginRepositories>
+  	<pluginRepository>
+			<id>maven-central</id>
+			<url>http://repo1.maven.org/maven2/</url>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+			<releases>
+				<enabled>true</enabled>
+			</releases>		
+	</pluginRepository>
+  </pluginRepositories>
+  <inceptionYear>2009</inceptionYear>
+  <url>http://neuri.com/projects/</url>
+  <developers><developer><name>Gojko Adzic</name></developer></developers>
+  <description>
+  	Trinidad is a set of extensions and additional runners for the FitNesse acceptance test management tool.   
+  </description>
+  <organization><name>Neuri Limited</name><url>http://www.neuri.co.uk</url></organization>
+  <licenses>
+    <license>
+      <name>GNU General Public License</name>
+      <url>http://www.gnu.org/licenses/gpl.html</url>
+    </license>
+  </licenses>
+ 	<distributionManagement>
+    <repository>
+      <id>neuri-maven</id>
+      <url>sftp://neuri.com/home/webadmin/maven.neuri.com/html</url>
+    </repository>
+  </distributionManagement>
+  <build>
+  <plugins>
+       <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <source>1.5</source>
+          <target>1.5</target>
+        </configuration>
+      </plugin>
+      <plugin>
+    	<groupId>org.apache.maven.plugins</groupId>
+    	<artifactId>maven-assembly-plugin</artifactId>
+        <configuration>
+			<descriptors>
+				<descriptor>src/assembly/src.xml</descriptor>
+			</descriptors>
+        </configuration>	    
+          <executions>
+          <execution>
+            <id>make-assembly</id> <!-- this is used for inheritance merges -->
+            <phase>package</phase> <!-- append to the packaging phase. -->
+            <goals>
+              <goal>single</goal> <!-- goals == mojos -->
+            </goals>
+          </execution>
+        </executions>          
+	    </plugin>      
+  </plugins>
+  </build>
+</project>

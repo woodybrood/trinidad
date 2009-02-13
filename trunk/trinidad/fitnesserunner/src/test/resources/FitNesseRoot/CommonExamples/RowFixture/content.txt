@@ -1,0 +1,6 @@
+!include -seamless SetUpFixture
+
+!|RowFixtureTest|
+|name|post code|
+|John Smith|SW4 66Z|
+|Michael Jordan|NE1 8AT|

@@ -1,0 +1,7 @@
+!define town {Houston}
+
+!|ColumnFixtureTest|
+|firstPart|secondPart|together?|
+|Hello|World|Hello, World|
+|${town}|We Have a Problem|${town}, We Have a Problem|
+

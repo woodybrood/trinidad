@@ -1,0 +1,28 @@
+@import url("/files/css/fitnesse_base.css");
+
+#execution-status
+{
+	width:250px;
+	height: 100px;
+}
+
+div.header
+{
+	height:100px;
+}
+div.mainbar
+{
+	left:110px;
+}
+div.art_niche
+{
+	height:100px;
+}
+div.sidebar
+{
+	width:100px;
+}
+table
+{
+	font-size:1.5em;
+}

@@ -1,0 +1,13 @@
+!|ColumnFixtureTest|
+|firstPart|secondPart|=together()|
+|Hello|World|line1|
+
+!|SymbolsTest|
+|check|symbol value|line1|Hello, World|
+|set symbol value|line2|Hello|
+
+!|ColumnFixtureTest|
+|firstPart=|secondPart|together()|
+|line1|World|Hello, World, World|
+|line2|World|Hello, World|
+

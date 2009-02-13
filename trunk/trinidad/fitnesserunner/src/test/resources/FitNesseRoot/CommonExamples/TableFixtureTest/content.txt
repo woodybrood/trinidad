@@ -1,0 +1,8 @@
+!|TableFixtureTest|
+|Item|Product code|Price|
+|Pragmatic Programmer|B978-0201616224|34.03|
+|Sony RDR-GX330|ERDR-GX330|94.80|
+|Test Driven Development By Example|B978-0321146533|32.39|
+|Net Total||161.22|
+|Tax (10% on applicable items)||9.48|
+|Total||170.70|

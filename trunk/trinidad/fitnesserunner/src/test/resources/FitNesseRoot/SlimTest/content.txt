@@ -1,0 +1,8 @@
+!define TEST_SYSTEM {slim} 
+!path /home/goyqo/work/slimtest/bin
+!path /opt/fitnesse/fitnesse.jar
+
+>ConcatenatingStrings
+>PlayerList
+
+!contents -R2 -g -p -f -h

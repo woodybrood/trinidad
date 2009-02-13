@@ -1,0 +1,6 @@
+!|ActionFixture|
+|start|ActionFixtureTest|
+|enter|firstPart|Hello|
+|enter|secondPart|World|
+|press|join|
+|check|together|Hello, World|

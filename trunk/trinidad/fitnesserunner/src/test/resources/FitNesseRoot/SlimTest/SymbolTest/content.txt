@@ -1,0 +1,6 @@
+|Concatenate Strings|
+|first|second|concatenate?|
+|hello|world|$sentence=|
+|so long | and thanks| $SOLONGANDTHANKS=|
+|$SOLONGANDTHANKS for all the|fish|so long and thanks for all the fish|
+|hey and|hello world|hey and $sentence|
