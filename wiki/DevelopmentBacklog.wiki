@@ -3,3 +3,5 @@
 = Stories =
   * teamcity feedback reporting (so that teamcity can show progress)
   * reduce memory consumption from maven plugin
+  * better links in reports (suite to tests and optional prefix for all links)
+  * integrate with maven reports 
