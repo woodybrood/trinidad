@@ -26,6 +26,7 @@ import fitnesse.responders.run.SuiteResponder;
 import fitnesse.revisioncontrol.RevisionController;
 import fitnesse.wiki.FileSystemPage;
 import fitnesse.wiki.PageCrawler;
+import fitnesse.wiki.PageCrawlerImpl;
 import fitnesse.wiki.PageData;
 import fitnesse.wiki.PathParser;
 import fitnesse.wiki.VirtualEnabledPageCrawler;
@@ -36,6 +37,9 @@ import fitnesse.wiki.WikiPagePath;
 public class FitNesseRepository implements TestRepository {
 	private FitNesseContext context;
 	private String fitnesseRoot;
+	public static final String SUITE_SETUP_NAME = "SuiteSetUp";
+	public static final String SUITE_TEARDOWN_NAME = "SuiteTearDown";
+
 	public FitNesseRepository () {
 	}
 	public void setUri(String uri) throws IOException {
@@ -63,7 +67,7 @@ public class FitNesseRepository implements TestRepository {
 		    WikiPage root=crawler.getPage(context.root,PathParser.parse("."));
 		    List<WikiPage> pages=SuiteResponder.makePageList(suiteRoot,root,null);
 		    for (WikiPage p:pages){
-		    	if (p.getData().hasAttribute("Test")){		    		
+		    	if (p.getData().hasAttribute("Test")||isSuiteSetUpOrTearDown(p)){		    		
 				    String testName=crawler.getFullPath(p).toString();
 					String content=formatWikiPage(testName, p);
 				    tests.add(new InMemoryTestImpl(testName,content));
@@ -74,14 +78,35 @@ public class FitNesseRepository implements TestRepository {
 		catch (Exception e){
 			throw new IOException("error reading suite "+name ,e);
 		}
-
 	}
+	private boolean isSuiteSetUpOrTearDown(WikiPage p) throws Exception{
+		return p.getName().equals("SuiteSetUp")
+		||p.getName().equals("SuiteTearDown")
+		||p.getName().endsWith(".SuiteSetUp")
+		||p.getName().endsWith(".SuiteTearDown");
+	}
+//	  WikiPage suiteSetUp = PageCrawlerImpl.getInheritedPage(SUITE_SETUP_NAME, suitePage);
+//    if (suiteSetUp != null) {
+//      if (pages.contains(suiteSetUp))
+//        pages.remove(suiteSetUp);
+//      pages.addFirst(suiteSetUp);
+//    }
+//    WikiPage suiteTearDown = PageCrawlerImpl.getInheritedPage(SUITE_TEARDOWN_NAME, suitePage);
+//    if (suiteTearDown != null) {
+//      if (pages.contains(suiteTearDown))
+//        pages.remove(suiteTearDown);
+//      pages.addLast(suiteTearDown);
+//    }
+
 	public Test getTest(String name)  throws IOException{
 		try{
 		 WikiPagePath path = PathParser.parse(name);
 		 PageCrawler crawler = context.root.getPageCrawler();
 		 WikiPage page = crawler.getPage(context.root, path);
-		 String content=formatWikiPage(name, page);
+		 if (page==null) throw new Error ("Test "+name+" not found!");
+		 WikiPage suiteSetUp = PageCrawlerImpl.getInheritedPage(SUITE_SETUP_NAME, page);
+		 WikiPage suiteTearDown = PageCrawlerImpl.getInheritedPage(SUITE_TEARDOWN_NAME, page);
+		 String content=formatWikiPage(name, page, suiteSetUp,suiteTearDown);
 		 return new InMemoryTestImpl(name,content);
 		}
 		catch (Exception ex){
@@ -90,12 +115,19 @@ public class FitNesseRepository implements TestRepository {
 		}
 	}
 	private String formatWikiPage(String name, WikiPage page) throws Exception{
+		return formatWikiPage(name,page,null,null);
+	}
+	private String formatWikiPage(String name, WikiPage page, WikiPage suiteSetUp, WikiPage suiteTearDown) throws Exception{
 		 PageData pd=page.getData();
 		 SetupTeardownIncluder.includeInto(pd);
 	     HtmlPage html = context.htmlPageFactory.newPage();
 	     html.title.use(name);
 	     html.header.use(name);
-	     html.main.use(HtmlUtil.addHeaderAndFooter(page, pd.getHtml()));
+	     StringBuffer content=new StringBuffer();
+	     if (suiteSetUp!=null) content.append(suiteSetUp.getData().getHtml());
+	     content.append(pd.getHtml());
+	     if (suiteTearDown!=null) content.append(suiteTearDown.getData().getHtml());	     
+	     html.main.use(HtmlUtil.addHeaderAndFooter(page, content.toString()));
 		 return html.html().replace("href=\"/files/css/", "href=\"");
 	}
 	private FitNesseContext makeContext(String rootPath) throws IOException {
