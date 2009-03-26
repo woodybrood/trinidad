@@ -24,18 +24,20 @@ public class FolderTestResultRepository implements TestResultRepository{
 		
 	}
 	public void addFile(File f, String relativeFilePath)throws IOException {
-		copy(f, new File(outputPath,relativeFilePath));	
+		File dst = new File(outputPath,relativeFilePath);
+		dst.getParentFile().mkdirs();
+		copy(f, dst);	
 	}
 	private void copy(File src, File dst) throws IOException {
-	    InputStream in = new FileInputStream(src);
-	    OutputStream out = new FileOutputStream(dst);
-	    // Transfer bytes from in to out
-	    byte[] buf = new byte[1024];
-	    int len;
-	    while ((len = in.read(buf)) > 0) {
-	        out.write(buf, 0, len);
-	    }
-	    in.close();
-	    out.close();
+		InputStream in = new FileInputStream(src);
+		OutputStream out = new FileOutputStream(dst);
+		// Transfer bytes from in to out
+		byte[] buf = new byte[1024];
+		int len;
+		while ((len = in.read(buf)) > 0) {
+			out.write(buf, 0, len);
+		}
+		in.close();
+		out.close();
 	}
 }
