@@ -40,7 +40,7 @@ public class TrinidadMojo extends AbstractMojo {
 	 * result repository).
 	 * 
 	 * @parameter expression="${trinidad.output}"
-	 *            default-value="${project.build.directory}/trinidad"
+	 *			default-value="${project.build.directory}/trinidad"
 	 * @required
 	 */
 	private String resultRepositoryUri;

@@ -48,15 +48,15 @@ public class SlimTestEngine implements TestEngine {
 			CountingListener listener=new CountingListener();
 			HtmlSlimTestSystem slim=new HtmlSlimTestSystem(wp,listener);
 			TestSystem.Descriptor descriptor = TestSystem.getDescriptor(wp.getData());
-		    descriptor.testRunner = "fitnesse.slim.SlimService";
-		    
-		    slim.setFastTest(true);
+			descriptor.testRunner = "fitnesse.slim.SlimService";
+			
+			slim.setFastTest(true);
 			slim.getExecutionLog("", descriptor);
 			slim.start();			
-			    
-		    String html = slim.runTestsAndGenerateHtml(pd);
-		    slim.bye();
-		    TestSummary counters=slim.getTestSummary();
+			
+			String html = slim.runTestsAndGenerateHtml(pd);
+			slim.bye();
+			TestSummary counters=slim.getTestSummary();
 			return new SingleTestResult(new Counts(counters.right,counters.wrong,counters.ignores,counters.exceptions),test.getName(),html);
 		}
 		catch (Exception e){

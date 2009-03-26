@@ -24,12 +24,12 @@ public class TestRunner {
 		return tr.getCounts();		
 	}
 	public Counts runSuite(String suite) throws IOException{
-	    SuiteResult suiteResult=new SuiteResult(suite);
+		SuiteResult suiteResult=new SuiteResult(suite);
 		for (Test t:repository.getSuite(suite)){
 			TestResult tr=testRunner.runTest(t);
 			suiteResult.append(tr);
 			resultRepository.recordTestResult(tr);
-    	}   	
+		}   	
 		resultRepository.recordTestResult(suiteResult);
 		return suiteResult.getCounts();
 	}
