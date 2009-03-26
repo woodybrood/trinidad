@@ -42,7 +42,8 @@ public class SuiteResult implements TestResult{
 			counts.tally(tr.getCounts());
 			testResults.add(tr);
 			content.append("<tr class='").append(getCssClass(tr.getCounts())).
-				append("'><td>").append(tr.getName())
+				append("'><td>").append("<a href=\"./").append(tr.getName())
+				.append(".html\">").append(tr.getName()).append("</a>")
 				.append("</td><td>").append(tr.getCounts().right)
 				.append("</td><td>").append(tr.getCounts().wrong)
 				.append("</td><td>").append(tr.getCounts().exceptions)
