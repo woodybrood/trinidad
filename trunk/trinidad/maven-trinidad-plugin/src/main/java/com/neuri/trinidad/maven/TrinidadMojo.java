@@ -6,6 +6,7 @@ import org.apache.maven.plugin.MojoExecutionException;
 import com.neuri.trinidad.TestEngine;
 import com.neuri.trinidad.TestRepository;
 import com.neuri.trinidad.TestRunner;
+import com.neuri.trinidad.fitnesserunner.FitLibraryTestEngine;
 import com.neuri.trinidad.fitnesserunner.FitNesseRepository;
 import com.neuri.trinidad.fitnesserunner.FitTestEngine;
 import com.neuri.trinidad.fitnesserunner.SlimTestEngine;
@@ -245,6 +246,8 @@ public class TrinidadMojo extends AbstractMojo {
 			suites = new String[] { singleSuite };
 		if ("FIT".equalsIgnoreCase(testEngine))
 			testEngine = FitTestEngine.class.getName();
+		if ("FITLIBRARY".equalsIgnoreCase(testEngine))
+			testEngine = FitLibraryTestEngine.class.getName();
 		if ("SLIM".equalsIgnoreCase(testEngine))
 			testEngine = SlimTestEngine.class.getName();
 		if ("FITNESSE".equalsIgnoreCase(testRepositoryType))
