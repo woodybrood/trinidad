@@ -5,3 +5,4 @@
   * reduce memory consumption from maven plugin
   * better links in reports (suite to tests and optional prefix for all links)
   * integrate with maven reports 
+  * maven skip tests
