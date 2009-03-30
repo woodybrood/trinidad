@@ -119,6 +119,13 @@ public class TrinidadMojo extends AbstractMojo {
 	 * @parameter alias="suite" expression="${trinidad.run.suite}"
 	 */
 	private String singleSuite = null;
+	
+	/**
+	 * Wether or not to skip test run. This aligns with how surefire works.
+	 * 
+	 * @parameter default-value="false" expression="${maven.test.skip}"
+	 */
+	private boolean skipTest;
 
 	
 	/**
@@ -130,6 +137,11 @@ public class TrinidadMojo extends AbstractMojo {
 	private String springContext;
 	
 	public void execute() throws MojoExecutionException {
+		if(this.skipTest) {
+			getLog().info("Skipping tests.");
+			return;
+		}
+		
 		processDefaults();
 		createOutputDirectory();
 		final ClassLoader cl = initProjectTestClassLoader();
