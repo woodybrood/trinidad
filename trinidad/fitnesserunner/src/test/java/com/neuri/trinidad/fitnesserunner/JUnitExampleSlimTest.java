@@ -13,7 +13,7 @@ public class JUnitExampleSlimTest {
 	public void initHelper() throws Exception{
 
 		helper=new JUnitHelper(new TestRunner(
-				new FitNesseRepository("target/test-classes"),
+				new FitNesseRepository("/opt/fitnesse/"),
 				new SlimTestEngine(),
 				new File(System.getProperty("java.io.tmpdir"),"fitnesse").getAbsolutePath()));
 	}
@@ -23,6 +23,6 @@ public class JUnitExampleSlimTest {
 //	}
 	@Test
 	public void runSingleTest() throws Exception{
-		helper.assertTestPasses("SlimTest.PlayerList");
+		helper.assertTestPasses("SlimTest.ConcatenatingStrings");
 	}
 }
