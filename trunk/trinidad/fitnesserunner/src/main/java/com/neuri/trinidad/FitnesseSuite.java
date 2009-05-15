@@ -19,7 +19,7 @@ public class FitnesseSuite extends ParentRunner<Test> {
 	private String suiteName;
 	private FitNesseRepository repository;
 	private FolderTestResultRepository resultRepository;
-	private FitTestEngine trinidadRunner;
+	private TestEngine testEngine;
 	private List<Test> tests;
 	private SuiteResult suiteResult;
 
@@ -70,7 +70,8 @@ public class FitnesseSuite extends ParentRunner<Test> {
 			suiteName = getSuiteName(suiteClass);
 			repository = new FitNesseRepository(getFitnesseDir(suiteClass));
 			resultRepository = new FolderTestResultRepository(getOutputDir(suiteClass));
-			trinidadRunner = new FitTestEngine();
+			//testEngine = new FitTestEngine();
+			testEngine = new FitTestEngine();
 			tests = repository.getSuite(suiteName);
 		} catch (IOException e) {
 			new InitializationError(e.getMessage());
@@ -135,7 +136,7 @@ public class FitnesseSuite extends ParentRunner<Test> {
 	protected void runChild(Test test, RunNotifier notifier) {
 		Description testDescription = describeChild(test);
 		notifier.fireTestStarted(testDescription);
-		TestResult tr = trinidadRunner.runTest(test);
+		TestResult tr = testEngine.runTest(test);
 		notifyTestResult(notifier, testDescription, tr);
 		suiteResult.append(tr);
 		try {
