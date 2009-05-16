@@ -19,7 +19,7 @@ public class FitnesseSuite extends ParentRunner<Test> {
 	private String suiteName;
 	private FitNesseRepository repository;
 	private FolderTestResultRepository resultRepository;
-	private TestEngine testEngine;
+	private com.neuri.trinidad.TestEngine testEngine;
 	private List<Test> tests;
 	private SuiteResult suiteResult;
 
@@ -41,6 +41,17 @@ public class FitnesseSuite extends ParentRunner<Test> {
 	@Target(ElementType.TYPE)
 	public @interface FitnesseDir {
 		public String value();
+	}
+
+	/**
+	 * The <code>Engine</code> annotation specifies which test engine will be used.
+	 * Currently there are two available <code>FitTestEngine.class</code> and <code>SlimTestEngine.class</code>.
+	 * If none is specified <code>FitTestEngine.class</code> will be used.
+	 */
+	@Retention(RetentionPolicy.RUNTIME)
+	@Target(ElementType.TYPE)
+	public @interface Engine {
+		public Class<? extends TestEngine> value();
 	}
 
 	/**
@@ -70,11 +81,25 @@ public class FitnesseSuite extends ParentRunner<Test> {
 			suiteName = getSuiteName(suiteClass);
 			repository = new FitNesseRepository(getFitnesseDir(suiteClass));
 			resultRepository = new FolderTestResultRepository(getOutputDir(suiteClass));
-			//testEngine = new FitTestEngine();
-			testEngine = new FitTestEngine();
+			testEngine = getEngine(suiteClass);
 			tests = repository.getSuite(suiteName);
 		} catch (IOException e) {
 			new InitializationError(e.getMessage());
+		}
+	}
+
+	private TestEngine getEngine(Class<?> suiteClass) throws InitializationError {
+		Engine engineClassAnnotation = suiteClass.getAnnotation(Engine.class);
+		Class<? extends TestEngine> engineClass;
+		if (engineClassAnnotation == null) {
+			engineClass = FitTestEngine.class;
+		} else {
+			engineClass = engineClassAnnotation.value();
+		}
+		try {
+			return engineClass.newInstance();
+		} catch (Exception e) {
+			throw new InitializationError(e.getMessage());
 		}
 	}
 
