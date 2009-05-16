@@ -6,11 +6,11 @@ import com.neuri.trinidad.FitnesseSuite;
 import com.neuri.trinidad.FitnesseSuite.*;
 
 @RunWith(FitnesseSuite.class)
-@Name("JavaExamples")
+@Name("SlimTest")
+@Engine(SlimTestEngine.class)
 @FitnesseDir("target/test-classes")
-//@TestEngine(FitTestEngine.class) //this is optional since it's the default
 //@OutputDir("/tmp/fitnesse") //Specify an absolute or relative path
 @OutputDir(systemProperty = "java.io.tmpdir", pathExtension = "fitnesse")
-public class JUnitExampleFitnesseSuiteTest {
+public class JUnitExampleFitnesseSuiteWithSlimTest {
 
 }
