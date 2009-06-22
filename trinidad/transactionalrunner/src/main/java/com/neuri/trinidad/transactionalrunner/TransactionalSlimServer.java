@@ -1,7 +1,7 @@
 package com.neuri.trinidad.transactionalrunner;
 
 import fitnesse.socketservice.SocketServer;
-import fitnesse.util.StreamReader;
+import util.StreamReader;
 
 import java.io.BufferedWriter;
 import java.io.IOException;

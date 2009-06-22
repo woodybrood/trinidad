@@ -3,9 +3,9 @@ import java.io.*;
 import java.net.Socket;
 
 import fit.*;
-import fitnesse.components.CommandLine;
-import fitnesse.components.FitProtocol;
-import fitnesse.util.StreamReader;
+import util.CommandLine;
+import fit.FitProtocol;
+import util.StreamReader;
 
 public class TransactionalFitServer {
 	public class DocumentRunner implements Runnable {

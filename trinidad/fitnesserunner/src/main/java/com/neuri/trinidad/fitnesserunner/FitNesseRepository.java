@@ -12,15 +12,14 @@ import com.neuri.trinidad.TestResultRepository;
 
 import fitnesse.ComponentFactory;
 import fitnesse.FitNesseContext;
-import fitnesse.authentication.PromiscuousAuthenticator;
+import fitnesse.WikiPageFactory;
 import fitnesse.html.HtmlPage;
 import fitnesse.html.HtmlPageFactory;
 import fitnesse.html.HtmlUtil;
 import fitnesse.html.SetupTeardownIncluder;
 import fitnesse.responders.ResponderFactory;
-import fitnesse.responders.run.SuiteResponder;
-import fitnesse.revisioncontrol.RevisionController;
-import fitnesse.wiki.FileSystemPage;
+import fitnesse.responders.WikiImportTestEventListener;
+import fitnesse.responders.run.SuiteContentsFinder;
 import fitnesse.wiki.PageCrawler;
 import fitnesse.wiki.PageCrawlerImpl;
 import fitnesse.wiki.PageData;
@@ -67,7 +66,11 @@ public class FitNesseRepository implements TestRepository {
 				throw new IllegalArgumentException("page "+name+" is not a suite");
 			}
 			WikiPage root=crawler.getPage(context.root,PathParser.parse("."));
-			List<WikiPage> pages=SuiteResponder.makePageList(suiteRoot,root,null);
+			
+		    SuiteContentsFinder suiteTestFinder = new SuiteContentsFinder(suiteRoot, root, null);
+		    List<WikiPage> pages=suiteTestFinder.getAllPagesToRunForThisSuite();
+		    
+			//List<WikiPage> pages=SuiteResponder.makePageList(suiteRoot,root,null);
 			for (WikiPage p:pages){
 				if (p.getData().hasAttribute("Test")||isSuiteSetUpOrTearDown(p)){					
 					String testName=crawler.getFullPath(p).toString();
@@ -126,12 +129,18 @@ public class FitNesseRepository implements TestRepository {
 		 SetupTeardownIncluder.includeInto(pd);
 		 HtmlPage html = context.htmlPageFactory.newPage();
 		 html.title.use(name);
-		 html.header.use(name);
+		 html.header.use(name);		
+		 
+		    
+		    
 		 StringBuffer content=new StringBuffer();
+		 content.append(pd.getHeaderPageHtml());
 		 if (suiteSetUp!=null) content.append(suiteSetUp.getData().getHtml());
 		 content.append(pd.getHtml());
-		 if (suiteTearDown!=null) content.append(suiteTearDown.getData().getHtml());		 
-		 html.main.use(HtmlUtil.addHeaderAndFooter(page, content.toString()));
+		 if (suiteTearDown!=null) content.append(suiteTearDown.getData().getHtml());
+		 pd.setContent(content.toString());
+		 content.append(pd.getFooterPageHtml());
+		 html.main.use(content.toString());
 		 String result = html.html();
 		 result = result.replace("href=\"/files/css/", "href=\"");
 		 result = result.replaceAll("/files/javascript/", "");
@@ -140,22 +149,24 @@ public class FitNesseRepository implements TestRepository {
 	}
 	private FitNesseContext makeContext(String rootPath) throws IOException {
 		try{
-		FitNesseContext context = new FitNesseContext();
-		context.port = 0;
-		context.rootPath = rootPath;
-		ComponentFactory componentFactory = new ComponentFactory(context.rootPath);
-		context.rootPageName = "FitNesseRoot"; //arguments.getRootDirectory();
-		context.rootPagePath = context.rootPath + "/" + context.rootPageName;
-		String defaultNewPageContent = componentFactory.getProperty(ComponentFactory.DEFAULT_NEWPAGE_CONTENT);
-		if (defaultNewPageContent != null)
-		  context.defaultNewPageContent = defaultNewPageContent;
-		RevisionController revisioner = componentFactory.loadRevisionController();
-		context.root = componentFactory.getRootPage(FileSystemPage.makeRoot(context.rootPath, context.rootPageName, revisioner));
-		context.responderFactory = new ResponderFactory(context.rootPagePath);
-		context.logger = null;
-		context.authenticator = new PromiscuousAuthenticator();
-		context.htmlPageFactory = componentFactory.getHtmlPageFactory(new HtmlPageFactory());
-		return context;
+			// this should ideally execute FitNesseMain.loadContext
+		    FitNesseContext context = new FitNesseContext();
+		    context.rootPath = rootPath;
+		    ComponentFactory componentFactory = new ComponentFactory(context.rootPath);
+		    context.rootDirectoryName = "FitNesseRoot";
+		    context.setRootPagePath();
+		    String defaultNewPageContent = componentFactory.getProperty(ComponentFactory.DEFAULT_NEWPAGE_CONTENT);
+		    if (defaultNewPageContent != null)
+		      context.defaultNewPageContent = defaultNewPageContent;
+		    WikiPageFactory wikiPageFactory = new WikiPageFactory();
+		    context.responderFactory = new ResponderFactory(context.rootPagePath);
+		    context.htmlPageFactory = componentFactory.getHtmlPageFactory(new HtmlPageFactory());
+		    context.root = wikiPageFactory.makeRootPage(context.rootPath, context.rootDirectoryName, componentFactory);
+
+		    WikiImportTestEventListener.register();
+
+		    return context;
+
 		}
 		catch (Exception e){
 			IOException ioe = new IOException(rootPath +" is not a fitnesse root url");
