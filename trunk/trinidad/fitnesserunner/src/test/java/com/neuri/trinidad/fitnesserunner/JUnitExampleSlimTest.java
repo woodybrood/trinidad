@@ -13,7 +13,7 @@ public class JUnitExampleSlimTest {
 	public void initHelper() throws Exception{
 
 		helper=new JUnitHelper(new TestRunner(
-				new FitNesseRepository("/opt/fitnesse/"),
+				new FitNesseRepository("target/test-classes"),
 				new SlimTestEngine(),
 				new File(System.getProperty("java.io.tmpdir"),"fitnesse").getAbsolutePath()));
 	}

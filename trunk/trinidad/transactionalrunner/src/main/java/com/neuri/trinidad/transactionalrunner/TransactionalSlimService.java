@@ -1,5 +1,5 @@
 package com.neuri.trinidad.transactionalrunner;
-import fitnesse.components.CommandLine;
+import util.CommandLine;
 import fitnesse.socketservice.SocketService;
 
 import java.util.Arrays;

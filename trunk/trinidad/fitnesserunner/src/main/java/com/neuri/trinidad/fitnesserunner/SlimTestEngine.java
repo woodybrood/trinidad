@@ -47,7 +47,7 @@ public class SlimTestEngine implements TestEngine {
 			};			
 			CountingListener listener=new CountingListener();
 			HtmlSlimTestSystem slim=new HtmlSlimTestSystem(wp,listener);
-			TestSystem.Descriptor descriptor = TestSystem.getDescriptor(wp.getData());
+			TestSystem.Descriptor descriptor = TestSystem.getDescriptor(wp.getData(),false);
 			descriptor.testRunner = "fitnesse.slim.SlimService";
 			
 			slim.setFastTest(true);

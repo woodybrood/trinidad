@@ -2,7 +2,7 @@ package slimtest;
 
 import java.util.ArrayList;
 import java.util.List;
-import static fitnesse.util.ListUtility.list;
+import static util.ListUtility.list;
 
 public class ListPlayers {
 	public List<Object> query(){

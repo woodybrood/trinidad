@@ -7,8 +7,8 @@ import fit.Counts;
 public class InProcessRunner {
 	public static void main(String[] args) throws Exception {
 //		TestRunner tdd=new TestRunner(new FitNesseRepository("src/test/resources"), 
-//				new FITTestEngine(),"/tmp/fitnesse");
-		TestRunner tdd=new TestRunner(new FitNesseRepository("/opt/fitnesse"), 
+//				new FitTestEngine(),"/tmp/fitnesse");
+		TestRunner tdd=new TestRunner(new FitNesseRepository("target/test-classes"), 
 				new SlimTestEngine(),"/tmp/fitnesse/slim");
 
 		Counts cs=tdd.runSuite("SlimTest");
