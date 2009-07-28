@@ -2,8 +2,8 @@ package com.neuri.trinidad.fitnesserunner;
 
 import org.junit.runner.RunWith;
 
-import com.neuri.trinidad.FitnesseSuite;
-import com.neuri.trinidad.FitnesseSuite.*;
+import fitnesse.trinidad.*;
+import fitnesse.trinidad.FitnesseSuite.*;
 
 @RunWith(FitnesseSuite.class)
 @Name("SlimTest")

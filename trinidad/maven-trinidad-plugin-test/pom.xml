@@ -1,0 +1,43 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <parent>
+    <artifactId>trinidad</artifactId>
+    <groupId>com.neuri.tdd</groupId>
+    <version>1.0.9</version>
+  </parent>
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.neuri.tdd</groupId>
+  <artifactId>maven-trinidad-plugin-test</artifactId>
+  <name>Maven trinidad plugin test</name>
+  <version>1.0.9</version>
+	<dependencies>
+        <dependency>
+            <groupId>info.fitnesse</groupId>
+            <artifactId>fixturegallery</artifactId>
+            <version>2.1</version>
+        </dependency> 
+	</dependencies>
+	<build>
+	<plugins>
+      <plugin>
+    	<groupId>org.apache.maven.plugins</groupId>
+    	<artifactId>maven-trinidad-plugin</artifactId>
+        <configuration>
+        	<testEngine>fit</testEngine>
+        	<testRepositoryType>fitnesse</testRepositoryType>
+        	<testRepositoryUri>${project.build.directory}/../../fitnesserunner/src/test/resources</testRepositoryUri>
+        	<breakBuildOnFailure>true</breakBuildOnFailure>
+        	<suites><suite>JavaExamples.CommonExamples</suite></suites>
+        </configuration>
+          <executions>
+          <execution>
+            <id>run-tests</id> <!-- this is used for inheritance merges -->
+            <phase>test</phase> <!-- append to the test phase. -->
+            <goals>
+              <goal>run-tests</goal> <!-- goals == mojos -->
+            </goals>
+          </execution>
+        </executions>          
+	    </plugin>      
+	  </plugins>
+	</build>
+</project>

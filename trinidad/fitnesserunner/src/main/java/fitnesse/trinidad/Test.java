@@ -1,4 +1,4 @@
-package com.neuri.trinidad;
+package fitnesse.trinidad;
 
 public interface Test {
 	String getName();

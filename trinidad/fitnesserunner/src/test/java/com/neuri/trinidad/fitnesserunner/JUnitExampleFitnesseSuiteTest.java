@@ -1,9 +1,10 @@
 package com.neuri.trinidad.fitnesserunner;
 
+import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import com.neuri.trinidad.FitnesseSuite;
-import com.neuri.trinidad.FitnesseSuite.*;
+import fitnesse.trinidad.FitnesseSuite;
+import fitnesse.trinidad.FitnesseSuite.*;
 
 @RunWith(FitnesseSuite.class)
 @Name("JavaExamples")
@@ -13,4 +14,8 @@ import com.neuri.trinidad.FitnesseSuite.*;
 @OutputDir(systemProperty = "java.io.tmpdir", pathExtension = "fitnesse")
 public class JUnitExampleFitnesseSuiteTest {
 
+  @Test
+  public void dummy(){
+  
+  }
 }
