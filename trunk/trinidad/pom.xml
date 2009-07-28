@@ -5,9 +5,9 @@
   <artifactId>trinidad</artifactId>
   <packaging>pom</packaging>
   <name>trinidad main project</name>
-  <version>1.0.8</version>
+  <version>1.0.9</version>
   <properties>
-	  <fitnesse.version>20090513</fitnesse.version>
+	  <fitnesse.version>20090709</fitnesse.version>
 	  <fitlibrary.version>20081102</fitlibrary.version>
 	  <junit.version>4.6</junit.version>
   </properties>
@@ -16,19 +16,18 @@
             <groupId>org.fitnesse</groupId>
             <artifactId>fitnesse</artifactId>
             <version>${fitnesse.version}</version>
-			<scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.fitnesse</groupId>
             <artifactId>fitlibrary</artifactId>
             <version>${fitlibrary.version}</version>
-			<scope>provided</scope>
         </dependency>
   </dependencies>
   <modules>
-  	<module>fitnesserunner</module>
-  	<module>transactionalrunner</module>
+    <module>fitnesserunner</module>
+    <module>transactionalrunner</module>
     <module>maven-trinidad-plugin</module>
+    <module>maven-trinidad-plugin-test</module>
   </modules> 
   <repositories>  	
   	<repository>

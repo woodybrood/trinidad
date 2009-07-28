@@ -4,7 +4,7 @@ import java.util.List;
 
 import junit.framework.Assert;
 
-import com.neuri.trinidad.Test;
+import fitnesse.trinidad.*;
 
 
 public class SuiteSetUpExecutionTest {

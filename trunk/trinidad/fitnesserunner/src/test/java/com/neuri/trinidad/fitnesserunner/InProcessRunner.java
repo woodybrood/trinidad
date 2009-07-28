@@ -1,6 +1,6 @@
 package com.neuri.trinidad.fitnesserunner;
 
-import com.neuri.trinidad.TestRunner;
+import fitnesse.trinidad.*;
 
 import fit.Counts;
 

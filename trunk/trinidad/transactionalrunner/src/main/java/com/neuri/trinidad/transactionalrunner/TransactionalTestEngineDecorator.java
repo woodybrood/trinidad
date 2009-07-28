@@ -1,8 +1,9 @@
 package com.neuri.trinidad.transactionalrunner;
 
-import com.neuri.trinidad.Test;
-import com.neuri.trinidad.TestEngine;
-import com.neuri.trinidad.TestResult;
+import fitnesse.trinidad.TestEngine;
+import fitnesse.trinidad.TestResult;
+
+import fitnesse.trinidad.Test;
 
 public class TransactionalTestEngineDecorator implements TestEngine{
 	private TestEngine decoratedEngine;

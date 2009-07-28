@@ -3,13 +3,7 @@ package com.neuri.trinidad.maven;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 
-import com.neuri.trinidad.TestEngine;
-import com.neuri.trinidad.TestRepository;
-import com.neuri.trinidad.TestRunner;
-import com.neuri.trinidad.fitnesserunner.FitLibraryTestEngine;
-import com.neuri.trinidad.fitnesserunner.FitNesseRepository;
-import com.neuri.trinidad.fitnesserunner.FitTestEngine;
-import com.neuri.trinidad.fitnesserunner.SlimTestEngine;
+import fitnesse.trinidad.*;
 import com.neuri.trinidad.transactionalrunner.TransactionalTestEngineDecorator;
 
 import java.io.File;
@@ -186,9 +180,6 @@ public class TrinidadMojo extends AbstractMojo {
 			getLog().info("running suite=" + suite);
 			Object counts = runSuite.invoke(testRunnerInstance, suite);
 			int wrongOrException = getWrongPlusExceptions(counts);
-//			if (breakBuildOnFailure && wrongOrException > 0)
-//				throw new MojoExecutionException(
-//						"Acceptance test suite run failed:" + suite);
 			totalWrongOrException+=wrongOrException;
 		}
 	}
@@ -204,7 +195,7 @@ public class TrinidadMojo extends AbstractMojo {
 		for (String test : tests) {
 			if (stopAfterFirstFailure && totalWrongOrException>0 ) break;
 			getLog().info("running test=" + test);
-			Object counts = (Integer) runTest.invoke(testRunnerInstance, test);
+			Object counts = runTest.invoke(testRunnerInstance, test);
 			int wrongOrException = getWrongPlusExceptions(counts);
 			totalWrongOrException+=wrongOrException;
 		}
@@ -275,7 +266,7 @@ public class TrinidadMojo extends AbstractMojo {
 			for (int i = 0; i < classpath.size(); i++) {
 				urlArray[i] = new File(classpath.get(i)).toURI().toURL();
 			}
-			return new URLClassLoader(urlArray);
+			return new URLClassLoader(urlArray, this.getClass().getClassLoader());
 		} catch (Exception e) {
 			throw new MojoExecutionException(
 					"class loader initialisation failed", e);
@@ -286,7 +277,7 @@ public class TrinidadMojo extends AbstractMojo {
 			String testRepositoryUri) {
 		try {
 			if ("fitnesse".equalsIgnoreCase(testRepositoryType)) {
-				return new com.neuri.trinidad.fitnesserunner.FitNesseRepository(
+				return new FitNesseRepository(
 						testRepositoryUri);
 			}
 		} catch (IOException e) {

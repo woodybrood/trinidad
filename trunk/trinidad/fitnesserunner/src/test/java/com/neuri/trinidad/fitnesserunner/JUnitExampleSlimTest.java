@@ -4,8 +4,7 @@ import java.io.File;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.neuri.trinidad.JUnitHelper;
-import com.neuri.trinidad.TestRunner;
+import fitnesse.trinidad.*;
 
 public class JUnitExampleSlimTest {
 	JUnitHelper helper;
