@@ -1,7 +1,11 @@
 Required Dependencies
 
-  In order to enable you to use any version of fitnesse, slim and fitlibrary, the maven plugin loads everything from 
-  the dependency classpath, no dependencies come with the plugin itself).  You'll need to include fitnesse, fitlibrary, any other
+
+  Since version 1.0.9, Trinidad is mostly merged with FitNesse with the Maven plugin and transactional wrappers
+  depending on the basic Trinidad classes in the FitNesse distribution.   
+  
+  In order to enable you to use any version of fitnesse, slim and fitlibrary, the maven plugin loads the 
+  the test dependency classpath first and then dependencies of the plugin.  You should include fitnesse, fitlibrary, any other
   dependencies that fit tests might have and trinidad fitnesse runner in the dependency list.  Use this to copy/paste required 
   dependencies into the pom.xml file:
   
@@ -9,9 +13,9 @@ Required Dependencies
   ...
  <properties>
   .....
-  <fitnesse.version>20081201</fitnesse.version>
-  <fitlibrary.version>20081102</fitlibrary.version>
-  <trinidad.version>1.0.2</trinidad.version>
+	  <fitnesse.version>20090709</fitnesse.version>
+	  <fitlibrary.version>20081102</fitlibrary.version>
+	  <trinidad.version>1.0.9</trinidad.version>
  </properties>
  ...
  <repositories>

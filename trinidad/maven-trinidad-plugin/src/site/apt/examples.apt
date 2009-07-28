@@ -22,6 +22,9 @@ Executing from the build file
   example, we execute tests as part of the test phase, break build if any of the tests fail, and
   execute two suites from a fitnesse repository in the src/main/fitnesse folder. 
    
+  Don't forget to add the breakBuildOnFailure argument if you want fitnesse test failures to break
+  your build.
+  
 ----------------------------------------  
 <project>
  ...
