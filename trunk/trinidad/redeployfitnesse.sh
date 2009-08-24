@@ -1,1 +1,1 @@
-mvn deploy:deploy-file -Durl=sftp://neuri.com/home/webadmin/maven.neuri.com/html -Dfile=/opt/fitnesse/fitnesse.jar -DgroupId=org.fitnesse -DartifactId=fitnesse -Dversion=20090709 -Dpackaging=jar -DrepositoryId=neuri-maven
+mvn deploy:deploy-file -Durl=sftp://neuri.com/home/webadmin/maven.neuri.com/html -Dfile=fitnesse.jar -DgroupId=org.fitnesse -DartifactId=fitnesse -Dversion=20090818 -Dpackaging=jar -DrepositoryId=neuri-maven

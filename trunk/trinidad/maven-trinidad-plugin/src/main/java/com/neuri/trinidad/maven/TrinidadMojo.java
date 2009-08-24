@@ -266,7 +266,7 @@ public class TrinidadMojo extends AbstractMojo {
 			for (int i = 0; i < classpath.size(); i++) {
 				urlArray[i] = new File(classpath.get(i)).toURI().toURL();
 			}
-			return new URLClassLoader(urlArray, this.getClass().getClassLoader());
+			return new URLClassLoader(urlArray);
 		} catch (Exception e) {
 			throw new MojoExecutionException(
 					"class loader initialisation failed", e);

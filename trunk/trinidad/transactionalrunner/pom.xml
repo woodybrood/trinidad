@@ -2,7 +2,7 @@
   <parent>
     <artifactId>trinidad</artifactId>
     <groupId>com.neuri.tdd</groupId>
-    <version>1.0.9</version>
+    <version>20090818</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
   <groupId>${project.parent.groupId}</groupId>
@@ -22,12 +22,6 @@
             <artifactId>junit</artifactId>
             <version>${junit.version}</version>
             <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <version>${project.version}</version>
-            <artifactId>fitnesserunner</artifactId>
-			<scope>provided</scope>
         </dependency>
 		<dependency>
 			<groupId>org.apache.derby</groupId>
