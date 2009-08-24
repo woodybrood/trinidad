@@ -18,7 +18,7 @@ public class TransactionalSlimServer implements SocketServer {
 	public static final String EXCEPTION_TAG = "__EXCEPTION__:";
 	private boolean verbose;
 	private RollbackIntf rollbackProcessingBean;
-
+	private SlimFactory slimFactory=new JavaSlimFactory();
 	public TransactionalSlimServer() {
 		this(false);
 	}
@@ -67,8 +67,8 @@ public class TransactionalSlimServer implements SocketServer {
 		}
 	}
 
-	private void initialize(Socket s) throws IOException {
-		executor = new ListExecutor(verbose);
+	private void initialize(Socket s) throws Exception {
+		executor = slimFactory.getListExecutor(verbose);
 		reader = new StreamReader(s.getInputStream());
 		writer = new BufferedWriter(new OutputStreamWriter(s.getOutputStream()));
 		writer.write(String.format("Slim -- %s\n", SlimVersion.VERSION));

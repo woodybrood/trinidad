@@ -2,11 +2,11 @@
   <parent>
     <artifactId>trinidad</artifactId>
     <groupId>com.neuri.tdd</groupId>
-    <version>1.0.9</version>
+    <version>20090818</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
   <groupId>${project.parent.groupId}</groupId>
-  <name>trinidad fitnesse helpers and utilities</name> 
+  <name>test for trinidad fitnesse helpers and utilities</name> 
   <artifactId>fitnesserunner</artifactId>
   <version>${project.parent.version}</version>
   	<dependencies>
