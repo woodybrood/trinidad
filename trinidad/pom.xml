@@ -5,7 +5,7 @@
   <artifactId>trinidad</artifactId>
   <packaging>pom</packaging>
   <name>trinidad main project</name>
-  <version>20090818</version>
+  <version>20091121</version>
   <properties>
 	  <fitnesse.version>${project.version}</fitnesse.version>
 	  <fitlibrary.version>20081102</fitlibrary.version>
