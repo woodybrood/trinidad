@@ -2,7 +2,7 @@
   <parent>
     <artifactId>trinidad</artifactId>
     <groupId>com.neuri.tdd</groupId>
-    <version>20090818</version>
+    <version>20091121</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
   <version>${project.parent.version}</version>
