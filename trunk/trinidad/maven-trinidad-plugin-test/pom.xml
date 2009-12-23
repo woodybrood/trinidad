@@ -14,6 +14,7 @@
       <plugin>
     	<groupId>org.apache.maven.plugins</groupId>
     	<artifactId>maven-trinidad-plugin</artifactId>
+    	<version>${project.version}</version>
         <configuration>
         	<testRepositoryUri>${project.build.directory}/../../../../fitnesse</testRepositoryUri>
         	<breakBuildOnFailure>true</breakBuildOnFailure>
