@@ -2,31 +2,22 @@
   <parent>
     <artifactId>trinidad</artifactId>
     <groupId>com.neuri.tdd</groupId>
-    <version>20091121</version>
+    <version>20091221-SNAPSHOT</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.neuri.tdd</groupId>
   <artifactId>maven-trinidad-plugin-test</artifactId>
   <name>Maven trinidad plugin test</name>
   <version>${project.parent.version}</version>
-	<dependencies>
-        <dependency>
-            <groupId>info.fitnesse</groupId>
-            <artifactId>fixturegallery</artifactId>
-            <version>2.1</version>
-        </dependency> 
-	</dependencies>
 	<build>
 	<plugins>
       <plugin>
     	<groupId>org.apache.maven.plugins</groupId>
     	<artifactId>maven-trinidad-plugin</artifactId>
         <configuration>
-        	<testEngine>fit</testEngine>
-        	<testRepositoryType>fitnesse</testRepositoryType>
-        	<testRepositoryUri>${project.build.directory}/../../fitnesserunner/src/test/resources</testRepositoryUri>
+        	<testRepositoryUri>${project.build.directory}/../../../../fitnesse</testRepositoryUri>
         	<breakBuildOnFailure>true</breakBuildOnFailure>
-        	<suites><suite>JavaExamples.CommonExamples</suite></suites>
+        	<suites><suite>FitNesse.SuiteAcceptanceTests.SuiteSlimTests</suite></suites>
         </configuration>
           <executions>
           <execution>
