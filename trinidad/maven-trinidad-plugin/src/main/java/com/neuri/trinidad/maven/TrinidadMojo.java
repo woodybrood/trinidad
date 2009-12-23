@@ -3,18 +3,15 @@ package com.neuri.trinidad.maven;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 
-import fitnesse.trinidad.*;
-import com.neuri.trinidad.transactionalrunner.TransactionalTestEngineDecorator;
 
 import java.io.File;
-import java.io.IOException;
-import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.List;
-
+import fitnesse.junit.*;
+import fitnesse.responders.run.ResultsListener;
 /**
  * Goal which runs a trinidad test execution.
  * 
@@ -39,24 +36,6 @@ public class TrinidadMojo extends AbstractMojo {
 	 */
 	private String resultRepositoryUri;
 
-	/**
-	 * Engine to be used to run the tests. This can be either <b>fit</b>,
-	 * <b>slim</b> or a fully-qualified class name of a third-party TestEngine
-	 * implementation.
-	 * 
-	 * @parameter expression="${trinidad.engine}"
-	 * @required
-	 */
-	private String testEngine;
-
-	/**
-	 * Test repository type. This can be <b>fitnesse</b> or a fully qualified
-	 * name of a third-party TestRepository implementation
-	 * 
-	 * @parameter expression="${trinidad.test.type}"
-	 * @required
-	 */
-	private String testRepositoryType;
 
 	/**
 	 * The URI for the test repository. The format depends on the test
@@ -115,21 +94,33 @@ public class TrinidadMojo extends AbstractMojo {
 	private String singleSuite = null;
 	
 	/**
-	 * Wether or not to skip test run. This aligns with how surefire works.
+	 * Whether or not to skip test run. This aligns with how surefire works.
 	 * 
 	 * @parameter default-value="false" expression="${maven.test.skip}"
 	 */
 	private boolean skipTest;
 
-	
+		
 	/**
-	 * An optional Spring context file for transactional test rollback. If specified, the test engine will
-	 * actually be wrapped into a spring transactional test engine decorator. See transactionalrunner documentation for more info
+	 * Optional listener class name for extending test instrumentation and reporting. The class
+	 * should implement FitNesse ResultListener interface
 	 * 
-	 * @parameter expression="${trinidad.spring.context}"
+	 * @parameter default-value="" expression="${trinidad.listener}"
 	 */
-	private String springContext;
+	private String listenerClass;
 	
+	void setTestRepositoryUri(String testRepositoryUri){
+	  this.testRepositoryUri=testRepositoryUri; 
+	}
+	void setResultRepositoryUri(String resultRepositoryUri) {
+    this.resultRepositoryUri = resultRepositoryUri;
+  }
+	void setSingleSuite(String singleSuite) {
+    this.singleSuite = singleSuite;
+  }
+	void setSingleTest(String singleTest) {
+    this.singleTest = singleTest;
+  }
 	public void execute() throws MojoExecutionException {
 		if(this.skipTest) {
 			getLog().info("Skipping tests.");
@@ -205,31 +196,21 @@ public class TrinidadMojo extends AbstractMojo {
 			throws ClassNotFoundException, InstantiationException,
 			IllegalAccessException, NoSuchMethodException,
 			InvocationTargetException {
-		Class<?> testEngineClass = cl.loadClass(this.testEngine);
-		Class<?> testRepositoryClass = cl.loadClass(this.testRepositoryType);
-
-		Object testEngine = testEngineClass.newInstance();
-
-		getLog().debug("loaded test engine=" + testEngine);
-
-		if (springContext!=null && springContext.trim().length()>0){
-			Class<?> transactionalEngineClass=cl.loadClass(TransactionalTestEngineDecorator.class.getName());
-			Constructor<?> ct=transactionalEngineClass.getConstructor(String.class, cl.loadClass(TestEngine.class.getName()));
-			testEngine=ct.newInstance(springContext,testEngine);
-			getLog().debug("loaded transactional decorator test engine=" + testEngine);	
-		}
-		Object testRepository = testRepositoryClass.newInstance();
-		getLog().debug("loaded test repository=" + testRepository);
-
-		Method setUri = testRepositoryClass.getMethod("setUri", String.class);
-		setUri.invoke(testRepository, testRepositoryUri);
-
-		Class<?> c = cl.loadClass(TestRunner.class.getName());
-		Object testRunnerInstance = c.getConstructor(
-				cl.loadClass(TestRepository.class.getName()),
-				cl.loadClass(TestEngine.class.getName()), String.class)
-				.newInstance(testRepository, testEngine, resultRepositoryUri);
-		getLog().debug("loaded test runner=" + testRunnerInstance);
+	  Object testRunnerInstance;
+    Class<?> c = cl.loadClass(TestHelper.class.getName());
+	  if (listenerClass!=null && !("".equals(listenerClass))){
+	    Object listener=cl.loadClass(listenerClass).newInstance();
+	    getLog().debug("Loaded listener:"+listenerClass);
+	    testRunnerInstance= c.getConstructor(
+	        String.class,String.class, cl.loadClass(ResultsListener.class.getName()))
+	        .newInstance(this.testRepositoryUri, this.resultRepositoryUri, listener);
+	  }
+	  else{
+	    testRunnerInstance= c.getConstructor(
+	        String.class,String.class)
+	        .newInstance(this.testRepositoryUri, this.resultRepositoryUri);
+	  }
+		getLog().debug("loaded test runner:" + testRunnerInstance);
 		return testRunnerInstance;
 	}
 
@@ -247,19 +228,13 @@ public class TrinidadMojo extends AbstractMojo {
 			tests = new String[] { singleTest };
 		if (singleSuite != null)
 			suites = new String[] { singleSuite };
-		if ("FIT".equalsIgnoreCase(testEngine))
-			testEngine = FitTestEngine.class.getName();
-		if ("FITLIBRARY".equalsIgnoreCase(testEngine))
-			testEngine = FitLibraryTestEngine.class.getName();
-		if ("SLIM".equalsIgnoreCase(testEngine))
-			testEngine = SlimTestEngine.class.getName();
-		if ("FITNESSE".equalsIgnoreCase(testRepositoryType))
-			testRepositoryType = FitNesseRepository.class.getName();
 	}
 
 	private ClassLoader initProjectTestClassLoader()
 			throws MojoExecutionException {
+	  if (mavenProject==null) return getClass().getClassLoader();
 		try {
+		  
 			List<String> classpath = mavenProject.getTestClasspathElements();
 			getLog().debug("class path=" + classpath);
 			URL[] urlArray = new URL[classpath.size()];
@@ -270,30 +245,6 @@ public class TrinidadMojo extends AbstractMojo {
 		} catch (Exception e) {
 			throw new MojoExecutionException(
 					"class loader initialisation failed", e);
-		}
-	}
-
-	public TestRepository getTestRepository(String testRepositoryType,
-			String testRepositoryUri) {
-		try {
-			if ("fitnesse".equalsIgnoreCase(testRepositoryType)) {
-				return new FitNesseRepository(
-						testRepositoryUri);
-			}
-		} catch (IOException e) {
-			throw new Error(
-					"Cannot instantiate fitnesse test repository for uri "
-							+ testRepositoryUri);
-		}
-
-		try {
-			TestRepository repository = (TestRepository) Class.forName(
-					testRepositoryType).newInstance();
-			repository.setUri(testRepositoryUri);
-			return repository;
-		} catch (Exception e) {
-			throw new Error("Cannot instantiate test repository by class name "
-					+ testRepositoryType + " and uri " + testRepositoryUri);
 		}
 	}
 
